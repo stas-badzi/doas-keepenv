@@ -1,0 +1,28 @@
+#!/bin/sh
+
+echo "\
+#!/bin/sh\n\
+mkdir -p /tmp/etc/$$\n\
+cat /etc/doas.conf > /tmp/etc/$$/doas.conf\n\
+echo \"permit nopass keepenv $USER as root\" > /etc/doas.conf\n\
+" > __tmpvar.sh
+
+chmod +x __tmpvar.sh
+doas $(pwd)/__tmpvar.sh
+rm __tmpvar.sh
+
+doas "$@"
+retval=$?
+
+echo "\
+#!/bin/sh\n\
+cat /tmp/etc/$$/doas.conf > /etc/doas.conf;\n\
+rm /tmp/etc/$$/doas.conf;\n\
+rmdir /tmp/etc/$$ 2>&1 1>/dev/null\n\
+" > __tmpvar.sh
+
+chmod +x __tmpvar.sh
+doas $(pwd)/__tmpvar.sh
+rm __tmpvar.sh
+
+exit $retval
