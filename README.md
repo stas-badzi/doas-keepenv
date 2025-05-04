@@ -10,5 +10,5 @@ make v=1.0
 # install package
 (`su -c`/`doas`/`sudo`) make install v=1.0 
 
-# bugs
-Changes to /etc/doas.conf while the subprocess is running will be reverted 
+# notice
+This script changes to /etc/doas.conf while the subprocess is running and it will will be reverted only after the subprocess exits
