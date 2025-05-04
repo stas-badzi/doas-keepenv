@@ -1,0 +1,3 @@
+# build dir
+build/usr/bin/doas-keepenv
+build/DEBIAN/control

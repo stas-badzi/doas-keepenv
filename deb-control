@@ -1,0 +1,9 @@
+Package: doas-keepenv
+Version: $
+Section: custom
+Priority: optional
+Architecture: all
+Essential: no
+Installed-Size: 1024
+Maintainer: stasbadzi.w.staszic.waw.pl
+Description: A bash script for running the doas command with keeping environment variables
