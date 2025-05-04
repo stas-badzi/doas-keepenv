@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "\
+echo -e "\
 #!/bin/sh\n\
 mkdir -p /tmp/etc/$$\n\
 cat /etc/doas.conf > /tmp/etc/$$/doas.conf\n\
@@ -14,7 +14,7 @@ rm __tmpvar.sh
 doas "$@"
 retval=$?
 
-echo "\
+echo -e "\
 #!/bin/sh\n\
 cat /tmp/etc/$$/doas.conf > /etc/doas.conf;\n\
 rm /tmp/etc/$$/doas.conf;\n\
