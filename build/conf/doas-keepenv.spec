@@ -1,14 +1,15 @@
 Name:       doas-keepenv
 Version:    $
 Release:    !%{?dist}
-Summary:    doas but keeps env vars
+Summary:    doas, but keeps env vars
 License:    MIT
 URL:        https://github.com/stas-badzi/doas-keepenv
 BugURL:    https://github.com/stas-badzi/doas-keepenv/issues
 Source:     https://github.com/stas-badzi/doas-keepenv/archive/refs/tags/$.tar.gz
 Packager:   Stanisław Badziak <stasbadzi@gmail.com>
 BuildArch:  noarch
-Requires:   opendoas
+BuildRequires: coreutils
+Requires:   coreutils,opendoas
 
 %description
 A shell script for running the doas command with keeping environment variables

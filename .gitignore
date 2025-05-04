@@ -5,5 +5,12 @@ build/deb/DEBIAN/control
 # .rpm tmp
 build/rpm/doas-keepenv.spec
 
+# .pkg.tar.* tmp
+build/pkg/pkg/*
+build/pkg/src/*
+build/pkg/*.tar.gz
+build/pkg/*.pkg.tar.*
+build/pkg/PKGBUILD
+
 # built packages
 build/bin/*
