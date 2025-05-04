@@ -6,4 +6,4 @@ build/deb/DEBIAN/control
 build/rpm/doas-keepenv.spec
 
 # built packages
-#build/bin/*
+build/bin/*
