@@ -1,3 +1,5 @@
 # build dir
 build/usr/bin/doas-keepenv
 build/DEBIAN/control
+# built package
+doas-keepenv_*-*_*.deb
