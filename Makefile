@@ -92,13 +92,16 @@ endif
 
 ifneq ($(wildcard /etc/arch-release),$(empty))
 
-pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.zst
+distro=$(shell cat /etc/os-release | grep "ID=" | grep -v "_ID=" | sed 's/ID=//g')
+
+pkgname=doas-keepenv-$(version)-$(release)-$(arch3).$(distro).pkg.tar.zst
+realpkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.zst
 # pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.xz
 # pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.gz
 
 build/bin/$(pkgname): doas-keepenv build/bin/.SRCINFO
 	cd build/pkg; makepkg -f
-	cp build/pkg/$(pkgname) build/bin/$(pkgname)
+	cp build/pkg/$(realpkgname) build/bin/$(pkgname)
 
 build/bin/.SRCINFO: build/conf/PKGBUILD
 	cat build/conf/PKGBUILD | sed 's/\%/$(version)/g' | sed 's/\!/$(release)/g' > build/pkg/PKGBUILD
