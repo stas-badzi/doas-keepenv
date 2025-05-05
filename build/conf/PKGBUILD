@@ -13,7 +13,7 @@ sha256sums=('aaf892d9b7a9775f4451bd1e1551dfb14b24dcdb2870bf6af4b524e0a421be27')
 
 package() {
 	mkdir -p $pkgdir/usr/bin
-	install -m 755 "$pkgname-$pkgver/doas-keepenv" $pkgdir/usr/bin
-	install -Dm644 "$pkgname-$pkgver/LICENSE" $pkgdir/usr/share/licenses/$pkgname"
-	install -Dm644 "$pkgname-$pkgver/README.md" $pkgdir/usr/share/doc/$pkgname"
+	install -m 755 "$pkgname-$pkgver/doas-keepenv" "$pkgdir/usr/bin"
+	install -Dm644 "$pkgname-$pkgver/LICENSE" "$pkgdir/usr/share/licenses/$pkgname"
+	install -Dm644 "$pkgname-$pkgver/README.md" "$pkgdir/usr/share/doc/$pkgname"
 }

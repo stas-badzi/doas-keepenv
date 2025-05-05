@@ -45,8 +45,10 @@ debname=doas-keepenv_$(version)-$(release)$(distro)$(distro-release)$(distro-ver
 
 build/bin/$(debname): doas-keepenv build/conf/control
 	cat build/conf/control | sed 's/\$$/$(version)/g' > build/deb/DEBIAN/control
-	mkdir -p build/deb/usr/bin
+	mkdir -p build/deb/usr/bin build/deb/usr/share/licenses/doas-keepenv build/deb/usr/share/doc/doas-keepenv
 	cp doas-keepenv build/deb/usr/bin
+	cp LICENSE build/deb/usr/share/licenses/doas-keepenv
+	cp README.md build/deb/usr/share/doc/doas-keepenv
 	
 	mkdir -p build/bin
 	dpkg-deb --build build/deb build/bin/$(debname)
@@ -64,6 +66,7 @@ rpmname=doas-keepenv-$(version)-$(release)$(dist).$(arch2).rpm
 srcrpmname=doas-keepenv-$(version)-$(release)$(dist).src.rpm
 
 build/bin/$(srcrmpname): build/bin/$(rpmname)
+	cp $$HOME/rpmbuild/SRPMS/$(srcrpmname) build/bin
 
 build/bin/$(rpmname): doas-keepenv build/conf/doas-keepenv.spec
 	cat build/conf/doas-keepenv.spec | sed 's/\$$/$(version)/g' | sed 's/\!/$(release)/g' > build/rpm/doas-keepenv.spec
@@ -74,7 +77,6 @@ build/bin/$(rpmname): doas-keepenv build/conf/doas-keepenv.spec
 
 	mkdir -p build/bin
 	cp $$HOME/rpmbuild/RPMS/$(arch2)/$(rpmname) build/bin
-	cp $$HOME/rpmbuild/SRPMS/$(srcrpmname) build/bin
 
 install: build/bin/$(rpmname)
 	dnf install build/bin/$(rpmname)
@@ -94,16 +96,15 @@ pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.zst
 # pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.xz
 # pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.gz
 
-build/bin/.SRCINFO: build/bin/$(pkgname)
-
-build/bin/$(pkgname): doas-keepenv build/conf/PKGBUILD
+build/bin/$(pkgname): doas-keepenv build/bin/.SRCINFO
 	cat build/conf/PKGBUILD | sed 's/\%/$(version)/g' | sed 's/\!/$(release)/g' > build/pkg/PKGBUILD
 	cd build/pkg; makepkg -f
 
 	mkdir -p build/bin
 	cp build/pkg/$(pkgname) build/bin/$(pkgname)
 
-	makepkg --printsrcinfo > build/bin/.SRCINFO
+build/bin/.SRCINFO: build/conf/PKGBUILD
+	cd build/pkg; makepkg --printsrcinfo > ../bin/.SRCINFO
 
 install: build/bin/$(pkgname)
 	pacman -U build/bin/$(pkgname)

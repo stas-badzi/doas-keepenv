@@ -20,8 +20,10 @@ A shell script for running the doas command with keeping environment variables
 %build
 
 %install
-mkdir -p %{buildroot}/usr/bin/
+mkdir -p %{buildroot}/usr/bin/ %{buildroot}/usr/share/licenses/doas-keepenv %{buildroot}/usr/doc/doas-keepenv
 install -m 755 doas-keepenv %{buildroot}/usr/bin
+install -Dm644 LICENSE %{buildroot}/usr/share/licenses/doas-keepenv
+install -Dm644 README.md %{buildroot}/usr/share/doc/doas-keepenv
 
 %files
 /usr/bin/doas-keepenv
