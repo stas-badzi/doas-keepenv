@@ -94,12 +94,16 @@ pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.zst
 # pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.xz
 # pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.gz
 
+build/bin/.SRCINFO: build/bin/$(pkgname)
+
 build/bin/$(pkgname): doas-keepenv build/conf/PKGBUILD
 	cat build/conf/PKGBUILD | sed 's/\%/$(version)/g' | sed 's/\!/$(release)/g' > build/pkg/PKGBUILD
 	cd build/pkg; makepkg -f
 
 	mkdir -p build/bin
 	cp build/pkg/$(pkgname) build/bin/$(pkgname)
+
+	makepkg --printsrcinfo > build/bin/.SRCINFO
 
 install: build/bin/$(pkgname)
 	pacman -U build/bin/$(pkgname)
