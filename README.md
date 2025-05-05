@@ -4,6 +4,9 @@ A shell script for running the doas command with keeping environment variables, 
 ## Usage
 Exactly like you would use doas, but some features might not work (normal `doas dorootthings` works rest is not tested)
 
+## Install from package repo:
+- `yay -S doas-keepenv` ([https://aur.archlinux.org/packages/doas-keepenv](https://aur.archlinux.org/packages/doas-keepenv))
+
 ## Packaging
 
 ### avilable package fromats
