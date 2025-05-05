@@ -53,7 +53,7 @@ build/bin/$(debname): doas-keepenv build/conf/control
 	mkdir -p build/bin
 	dpkg-deb --build build/deb build/bin/$(debname)
 install: build/bin/$(debname)
-	apt install build/bin/$(debname)
+	apt install ./build/bin/$(debname)
 clean: 
 	rm -rf build/deb/DEBIAN/control build/deb/usr build/bin
 endif
