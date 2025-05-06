@@ -13,6 +13,7 @@ Exactly like you would use doas, but some features might not work (normal `doas 
 - `.deb` (Debian and derivitives)
 - `.rpm` (RHEL and derivitives)
 - `.pkg.tar.`(`zst`/`xz`/`gz`) (Arch Linux and derivitives)
+- `.nix` (NixOS, Sandalone Nix doesn't work yet)
 
 ### build package from source
 `make v=1.0`
