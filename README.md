@@ -25,7 +25,7 @@ Exactly like you would use doas, but some features might not work (normal `doas 
 
 ### build and install package from source
 - `make v=1.0`
-- `make install v=1.0` // for nix `make` installs it
+- `[root] make install v=1.0` // for nix `make` installs it
 
 ### install package
 (`su -c`/`doas`/`sudo`) `make install v=1.0`
