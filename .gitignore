@@ -1,5 +1,5 @@
 # .deb tmp
-build/deb/usr/bin/doas-keepenv
+build/deb/usr/*
 build/deb/DEBIAN/control
 
 # .rpm tmp
@@ -11,6 +11,8 @@ build/pkg/src/*
 build/pkg/*.tar.gz
 build/pkg/*.pkg.tar.*
 build/pkg/PKGBUILD
+
+# .nix tmp
 
 # built packages
 build/bin/*

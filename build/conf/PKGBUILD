@@ -2,11 +2,11 @@
 pkgname=doas-keepenv
 pkgver=%
 pkgrel=!
-pkgdesc="A shell script for running the doas command with keeping environment variables"
+pkgdesc="A shell script for running the doas command while keeping environment variables"
 arch=(any)
 url="https://github.com/stas-badzi/doas-keepenv"
 license=('MIT')
-makedepends=('coreutils')
+makedepends=()
 depends=('coreutils' 'opendoas')
 source=("https://github.com/stas-badzi/$pkgname/archive/refs/tags/$pkgver.tar.gz")
 sha256sums=('aaf892d9b7a9775f4451bd1e1551dfb14b24dcdb2870bf6af4b524e0a421be27')

@@ -12,7 +12,7 @@ BuildRequires: coreutils
 Requires:   coreutils,opendoas
 
 %description
-A shell script for running the doas command with keeping environment variables
+A shell script for running the doas command while keeping environment variables
 
 %prep
 %autosetup

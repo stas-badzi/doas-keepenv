@@ -1,5 +1,5 @@
 # doas-keepenv
-A shell script for running the doas command with keeping environment variables, make to replicate `sudo -E` behaviour for the `doas` command
+A shell script for running the doas command while keeping environment variables, make to replicate `sudo -E` behaviour for the `doas` command
 
 ## Usage
 Exactly like you would use doas, but some features might not work (normal `doas dorootthings` works rest is not tested)

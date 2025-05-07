@@ -100,7 +100,7 @@ realpkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.zst
 # pkgname=doas-keepenv-$(version)-$(release)-$(arch3).pkg.tar.gz
 
 build/bin/$(pkgname): doas-keepenv build/bin/.SRCINFO
-	cd build/pkg; makepkg -f
+	cd build/pkg; makepkg -sf
 	cp build/pkg/$(realpkgname) build/bin/$(pkgname)
 
 build/bin/.SRCINFO: build/conf/PKGBUILD
@@ -113,4 +113,29 @@ install: build/bin/$(pkgname)
 
 clean:
 	rm -rf build/bin build/pkg/pkg build/pkg/src build/pkg/$(pkgname) build/pkg/$(version).tar.gz build/pkg/PKGBUILD
+endif
+
+ifneq ($(wildcard /etc/nix),$(empty))
+
+narname=doas-keepenv-$(version)-$(release).nar
+nixname=doas-keepenv-$(version)-$(release).nix
+
+build/bin/$(narname): build/bin/$(nixname)
+	nix-build build/bin/$(nixname) -o build/bin/result
+	nix-store --export $$(nix-store --query --requisites build/bin/result) > build/bin/$(narname)
+
+build/bin/$(nixname): build/conf/default.nix
+	mkdir -p build/bin
+	cat build/conf/default.nix | sed 's/\%/$(version)/g' > build/bin/$(nixname)
+
+install: build/bin/$(narname)
+	nix-store --import --no-require-sigs < build/bin/$(narname)
+
+publish: build/bin/$(narname)
+	cd $$(mktemp -d); git clone https://github.com/stas-badzi/nix-channel.git; cd nix-channel; mkdir -p pkgs/doas-keepenv; cat $(current_dir)/build/bin/$(nixname) | sed 's/pkgs ? import <nixpkgs> {}/stdenv,lib,coreutils,doas,makeWrapper,fetchurl,/g' | sed 's/pkgs.//g' > pkgs/doas-keepenv/default.nix; git add pkgs/doas-keepenv/default.nix; git commit -m "doas-keepenv: $(version)-$(release)"; git push
+
+clean:
+	rm -rf build/bin
+	rm build/nar/default.nix
+
 endif
