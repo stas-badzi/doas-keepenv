@@ -17,13 +17,15 @@ Exactly like you would use doas, but some features might not work (normal `doas 
 ## Packaging
 
 ### avilable package fromats
-- `.deb` (Debian and derivitives)
-- `.rpm` (RHEL and derivitives)
-- `.pkg.tar.`(`zst`/`xz`/`gz`) (Arch Linux and derivitives)
-- `.nix` (Nix package manager)
+- `.deb` (Debian and derivitives) -> `[root] apt install ./doas-keepenv.deb`
+- `.rpm` (RHEL and derivitives) -> `[root] dnf install ./doas-keepenv.rpm`
+- `.pkg.tar.`(`zst`/`xz`/`gz`) (Arch Linux and derivitives) -> `[root] pacman -U ./doas-keepenv.pkg.tar.zst`
+- `.nar` (Nix package manager) -> `[trusted user] nix-store --import --no-require-sigs < doas-keepenv.nar`
+- `.nix` (Nix package manager; Build from source i think) -> `nix-env -if ./doas-keepenv.nix`
 
-### build package from source
-`make v=1.0`
+### build and install package from source
+- `make v=1.0`
+- `make install v=1.0` // for nix `make` installs it
 
 ### install package
 (`su -c`/`doas`/`sudo`) `make install v=1.0`
