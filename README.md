@@ -28,6 +28,7 @@ Exactly like you would use doas, but some features might not work (normal `doas 
 ### build and install package from source
 - `make v=1.0`
 - `[root] make install v=1.0` // for nix `make` installs it
+-  add the `force-nix=1` flag to force nix build on systems other than NixOS
 
 ### install package
 (`su -c`/`doas`/`sudo`) `make install v=1.0`

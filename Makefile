@@ -34,6 +34,12 @@ else
 arch3=$(arch1)
 endif
 
+ifneq ($(wildcard /etc/nixos),$(empty))
+force-nix=1
+endif
+
+ifneq ($(force-nix),1)
+
 ifneq ($(wildcard /etc/debian_version),$(empty))
 # .deb
 
@@ -56,7 +62,7 @@ install: build/bin/$(debname)
 	apt install ./build/bin/$(debname)
 clean: 
 	rm -rf build/deb/DEBIAN/control build/deb/usr build/bin
-endif
+else
 
 ifneq ($(wildcard /etc/redhat-release),$(empty))
 # .rpm
@@ -88,7 +94,7 @@ clean:
 	-rmdir $$HOME/rpmbuild/*
 	-rmdir $$HOME/rpmbuild
 
-endif
+else
 
 ifneq ($(wildcard /etc/arch-release),$(empty))
 
@@ -113,8 +119,23 @@ install: build/bin/$(pkgname)
 
 clean:
 	rm -rf build/bin build/pkg/pkg build/pkg/src build/pkg/$(pkgname) build/pkg/$(version).tar.gz build/pkg/PKGBUILD
+
+else
+
+ifneq ($(wildcard /etc/nix),$(empty))
+force-nix=1
+$(warning Falling back to nix build)
+else
+$(error No supported package manager found on this system)
 endif
 
+endif
+endif
+endif
+
+endif
+
+ifeq ($(force-nix),1)
 ifneq ($(wildcard /etc/nix),$(empty))
 
 narname=doas-keepenv-$(version)-$(release).nar
@@ -128,14 +149,18 @@ build/bin/$(nixname): build/conf/default.nix
 	mkdir -p build/bin
 	cat build/conf/default.nix | sed 's/\%/$(version)/g' > build/bin/$(nixname)
 
-install-nix: build/bin/$(narname)
+install: build/bin/$(narname)
 	nix-store --import --no-require-sigs < build/bin/$(narname)
 
-publish-nix: build/bin/$(narname)
+publish: build/bin/$(narname)
 	cd $$(mktemp -d); git clone https://github.com/stas-badzi/nix-channel.git; cd nix-channel; mkdir -p pkgs/doas-keepenv; cat $(current_dir)/build/bin/$(nixname) | sed 's/pkgs ? import <nixpkgs> {}/stdenv,lib,coreutils,doas,makeWrapper,fetchurl,/g' | sed 's/pkgs.//g' > pkgs/doas-keepenv/default.nix; make publish k=$(k); git add pkgs/doas-keepenv/default.nix; git commit -m "doas-keepenv: $(version)-$(release)"; git push
 
-clean-nix:
+clean:
 	rm -rf build/bin
 	rm build/nar/default.nix
+
+else
+$(error Nix not installed in /etc on this system)
+endif
 
 endif
