@@ -9,12 +9,26 @@ Exactly like you would use doas, but some features might not work (normal `doas 
 1. Install [yay](https://github.com/Jguer/yay)
 2. Run `yay -S doas-keepenv` to install or update
 
-### Nix
+### Nix (you can skip steps 3 to 5 for a source build)
 0.  [NixOS only] - install and enable [doas](https://nixos.wiki/wiki/Doas)
-1.  Add the _stas-badzi_ channel if you don't have it already: `nix-channel --add https://stas-badzi.github.io stasbadzi`
-2.  Update channels: `nix-channel --update`
-3.  Install program with nix-env: `nix-env -iA stasbadzi.doas-keepenv`
-4.  public key `stas-badzi.github.io:AuoE/aUhg06ZpGlmx1oyDXZBJ8gBlNGjMYgzTST91co=`
+1.  Add the _stas-badzi_ channel if you don't have it already: `nix-channel --add https://stas-badzi.github.io stasbadzi`  (as root to enable for all users)
+2.  Update channels: `nix-channel --update` (as root to enable for all users)
+3.  [as root] Allow users to use cache url:
+<br>Add these lines:
+    ```
+    extra-trusted-substituters = https://stas-badzi.github.io/cache
+    extra-trusted-public-keys = stas-badzi.github.io:AuoE/aUhg06ZpGlmx1oyDXZBJ8gBlNGjMYgzTST91co=
+    ```
+    to `/etc/nix/nix.conf` (or to the `nix.extraOptions` var in `/etc/nixos/configuration.nix` on NixOS)
+4.  [as root] Restart the nix-daemon: `pkill nix-daemon`; or (on NixOS) rebuild nix: `nixos-rebuild switch`
+5.  Enable cache url for a specific user:
+<br>Add (or create if not present) to `~/.config/nix/nix.conf` this line:
+    ```
+    extra-substituters = https://stas-badzi.github.io/cache
+    ```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or to the global config (step 3.) to enable for all users, in which case repeat step 4. 
+
+6.  Install program with nix-env: `nix-env -iA stasbadzi.doas-keepenv`
 
 ## Packaging
 
