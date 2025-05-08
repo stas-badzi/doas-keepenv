@@ -38,7 +38,7 @@ Exactly like you would use doas, but some features might not work (normal `doas 
 - `.pkg.tar.`(`zst`/`xz`/`gz`) (Arch Linux and derivitives) -> `[root] pacman -U ./doas-keepenv.pkg.tar.zst`
 - `.nar` (Nix package manager) -> `[trusted user] nix-store --import --no-require-sigs < doas-keepenv.nar`
 - `.nix` (Nix package manager; Build from source) -> `nix-env -if ./doas-keepenv.nix`
-  (or `nix-env -if https://stas-badzi.github.io/doas-keepenv/default.nix`)
+<br>(or `nix-env -if https://stas-badzi.github.io/doas-keepenv/default.nix`)
 
 ### build and install package from source
 - `make v=1.0`
