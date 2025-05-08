@@ -154,7 +154,7 @@ install: build/bin/$(narname)
 
 publish: build/bin/$(narname)
 	cd $$(mktemp -d); git clone https://github.com/stas-badzi/nix-channel.git; cd nix-channel; mkdir -p pkgs/doas-keepenv; cat $(current_dir)/build/bin/$(nixname) | sed 's/pkgs ? import <nixpkgs> {}/stdenv,lib,coreutils,doas,makeWrapper,fetchurl,/g' | sed 's/pkgs.//g' > pkgs/doas-keepenv/default.nix; make publish k=$(k); git add pkgs/doas-keepenv/default.nix; git commit -m "doas-keepenv: $(version)-$(release)"; git push
-
+	cd $$(mktemp -d); git clone https://github.com/stas-badzi/doas-keepenv.git; cd doas-keepenv; git switch github-pages; cp $(current_dir)/build/bin/$(nixname) default.nix; git add default.nix; git commit -m "$(version)-$(release)"; git push
 clean:
 	rm -rf build/bin
 	rm build/nar/default.nix
