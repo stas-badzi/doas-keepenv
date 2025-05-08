@@ -128,13 +128,13 @@ build/bin/$(nixname): build/conf/default.nix
 	mkdir -p build/bin
 	cat build/conf/default.nix | sed 's/\%/$(version)/g' > build/bin/$(nixname)
 
-install: build/bin/$(narname)
+install-nix: build/bin/$(narname)
 	nix-store --import --no-require-sigs < build/bin/$(narname)
 
-publish: build/bin/$(narname)
-	cd $$(mktemp -d); git clone https://github.com/stas-badzi/nix-channel.git; cd nix-channel; mkdir -p pkgs/doas-keepenv; cat $(current_dir)/build/bin/$(nixname) | sed 's/pkgs ? import <nixpkgs> {}/stdenv,lib,coreutils,doas,makeWrapper,fetchurl,/g' | sed 's/pkgs.//g' > pkgs/doas-keepenv/default.nix; git add pkgs/doas-keepenv/default.nix; git commit -m "doas-keepenv: $(version)-$(release)"; git push
+publish-nix: build/bin/$(narname)
+	cd $$(mktemp -d); git clone https://github.com/stas-badzi/nix-channel.git; cd nix-channel; mkdir -p pkgs/doas-keepenv; cat $(current_dir)/build/bin/$(nixname) | sed 's/pkgs ? import <nixpkgs> {}/stdenv,lib,coreutils,doas,makeWrapper,fetchurl,/g' | sed 's/pkgs.//g' > pkgs/doas-keepenv/default.nix; make publish k=$(k); git add pkgs/doas-keepenv/default.nix; git commit -m "doas-keepenv: $(version)-$(release)"; git push
 
-clean:
+clean-nix:
 	rm -rf build/bin
 	rm build/nar/default.nix
 

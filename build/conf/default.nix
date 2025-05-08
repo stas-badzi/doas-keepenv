@@ -12,7 +12,7 @@ pkgs.stdenv.mkDerivation {
   };
 
   buildInputs = [
-    pkgs.doas
+    #pkgs.doas either way it requires manual setup, so having it as a dependecy doesn't help
   ];
 
   nativeBuildInputs = [
@@ -41,5 +41,8 @@ pkgs.stdenv.mkDerivation {
     license = pkgs.lib.licenses.mit;
     #maintainers = with pkgs.lib.maintainers; [ stasbadzi ];
     platforms = pkgs.lib.platforms.linux;
-  };
+  }; 
+  
+  allowSubstitutes = true;
+  preferLocalBuild = false;
 }
