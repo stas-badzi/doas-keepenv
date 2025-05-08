@@ -14,6 +14,7 @@ Exactly like you would use doas, but some features might not work (normal `doas 
 1.  Add the _stas-badzi_ channel if you don't have it already: `nix-channel --add https://stas-badzi.github.io stasbadzi`
 2.  Update channels: `nix-channel --update`
 3.  Install program with nix-env: `nix-env -iA stasbadzi.doas-keepenv`
+4.  public key `stas-badzi.github.io:AuoE/aUhg06ZpGlmx1oyDXZBJ8gBlNGjMYgzTST91co=`
 
 ## Packaging
 
