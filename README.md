@@ -10,9 +10,11 @@ Exactly like you would use doas, but some features might not work (normal `doas 
 2. Run `yay -S doas-keepenv` to install or update
 
 ### Nix
-1.  Add the _stas-badzi_ channel if you don't have it already: `nix-channel --add https://github.com/stas-badzi/nix-channel/archive/main.tar.gz stasbadzi`
+0.  [NixOS only] - install and enable [doas](https://nixos.wiki/wiki/Doas)
+1.  Add the _stas-badzi_ channel if you don't have it already: `nix-channel --add https://stas-badzi.github.io stasbadzi`
 2.  Update channels: `nix-channel --update`
 3.  Install program with nix-env: `nix-env -iA stasbadzi.doas-keepenv`
+4.  public key `stas-badzi.github.io:AuoE/aUhg06ZpGlmx1oyDXZBJ8gBlNGjMYgzTST91co=`
 
 ## Packaging
 
