@@ -1,26 +1,22 @@
-#!/bin/sh
+#!/nix/store/q7sqwn7i6w2b67adw0bmix29pxg85x3w-bash-5.3p3/bin/sh
 
 echo -e "\
 #!/bin/sh\n\
-mkdir -p /tmp/etc/$$\n\
-cat /etc/doas.conf > /tmp/etc/$$/doas.conf\n\
-echo \"permit nopass keepenv $USER as root\" > /etc/doas.conf\n\
+mkdir -p /tmp/etc\n\
+ls /tmp/etc/doas-keepenv.conf 2>/dev/null >/dev/null || mv /etc/doas.conf /tmp/etc/doas-keepenv.conf\n\
+echo \"permit nopass keepenv $USER as root\\npermit nopass root as root\" > /etc/doas.conf\n\
+touch /tmp/etc/doas-keepenv.conf\
 " > "$HOME/.tmpvar$$.sh"
 
 chmod +x "$HOME/.tmpvar$$.sh"
-doas "$HOME/.tmpvar$$.sh"
+doas "$HOME/.tmpvar$$.sh" || (rm "$HOME/.tmpvar$$.sh"; false) || exit   
 
 echo -ne "\
 #!/bin/sh\n\
 rm \"$HOME/.tmpvar$$.sh\";\
 " > "$HOME/.tmpvar$$.sh"
-echo -n '"$@";retval=$?;' >> "$HOME/.tmpvar$$.sh"
-echo -e "\
-cat /tmp/etc/$$/doas.conf > /etc/doas.conf;\
-rm /tmp/etc/$$/doas.conf;\
-rmdir /tmp/etc/$$ 2>&1 1>/dev/null;\
-exit $retval\
-" >> "$HOME/.tmpvar$$.sh"
+
+echo -n '(cat /tmp/etc/doas-keepenv.conf >/dev/null 2>/dev/null && doas mv /tmp/etc/doas-keepenv.conf /etc/doas.conf 2>/dev/null)&"$@";exit' >> "$HOME/.tmpvar$$.sh"
 
 doas "$HOME/.tmpvar$$.sh" "$@"
-exit  
+exit
