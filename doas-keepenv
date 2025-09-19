@@ -5,24 +5,22 @@ echo -e "\
 mkdir -p /tmp/etc/$$\n\
 cat /etc/doas.conf > /tmp/etc/$$/doas.conf\n\
 echo \"permit nopass keepenv $USER as root\" > /etc/doas.conf\n\
-" > __tmpvar.sh
+" > "$HOME/.tmpvar$$.sh"
 
-chmod +x __tmpvar.sh
-doas $(pwd)/__tmpvar.sh
-rm __tmpvar.sh
+chmod +x "$HOME/.tmpvar$$.sh"
+doas "$HOME/.tmpvar$$.sh"
 
-doas "$@"
-retval=$?
-
-echo -e "\
+echo -ne "\
 #!/bin/sh\n\
-cat /tmp/etc/$$/doas.conf > /etc/doas.conf;\n\
-rm /tmp/etc/$$/doas.conf;\n\
-rmdir /tmp/etc/$$ 2>&1 1>/dev/null\n\
-" > __tmpvar.sh
+rm \"$HOME/.tmpvar$$.sh\";\
+" > "$HOME/.tmpvar$$.sh"
+echo -n '"$@";retval=$?;' >> "$HOME/.tmpvar$$.sh"
+echo -e "\
+cat /tmp/etc/$$/doas.conf > /etc/doas.conf;\
+rm /tmp/etc/$$/doas.conf;\
+rmdir /tmp/etc/$$ 2>&1 1>/dev/null;\
+exit $retval\
+" >> "$HOME/.tmpvar$$.sh"
 
-chmod +x __tmpvar.sh
-doas $(pwd)/__tmpvar.sh
-rm __tmpvar.sh
-
-exit $retval
+doas "$HOME/.tmpvar$$.sh" "$@"
+exit  
